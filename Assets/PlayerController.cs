@@ -33,5 +33,15 @@ public class PlayerController : MonoBehaviour
         {
             transform.Translate(Vector2.right * move_Speed * Time.deltaTime);
         }
+
+        if (Input.GetKey(KeyCode.Q))
+        {
+            transform.Rotate(Vector3.left * 100 * Time.deltaTime);
+        }
+        else if (Input.GetKey(KeyCode.E))
+        {
+            transform.Rotate(Vector3.right * 100 * Time.deltaTime);
+        }
+
     }
 }
