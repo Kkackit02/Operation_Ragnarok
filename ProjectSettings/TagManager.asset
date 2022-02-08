@@ -4,9 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Parent_Joint
   - Connect
   - Module
+  - Joint
+  - Jointed
   layers:
   - Default
   - TransparentFX
@@ -43,4 +44,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Joint
+    uniqueID: 2641915391
+    locked: 0
+  - name: Module
+    uniqueID: 4051492181
     locked: 0

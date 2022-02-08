@@ -15,11 +15,14 @@ public class Drag : MonoBehaviour
 
         Vector3 objPosition = Camera.main.ScreenToWorldPoint(mousePosition);
         transform.position = objPosition;
+        GameManager.Instance.Display_Ship_Joint();
+
     }
     
     public virtual void OnMouseUpAsButton()
     {
         isDraging = false;
+        
     }
 
 }

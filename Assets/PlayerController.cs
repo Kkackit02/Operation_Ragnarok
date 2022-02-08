@@ -36,11 +36,11 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Q))
         {
-            transform.Rotate(Vector3.left * 100 * Time.deltaTime);
+            transform.Rotate(Vector3.up * 100 * Time.deltaTime);
         }
         else if (Input.GetKey(KeyCode.E))
         {
-            transform.Rotate(Vector3.right * 100 * Time.deltaTime);
+            transform.Rotate(Vector3.down * 100 * Time.deltaTime);
         }
 
     }
