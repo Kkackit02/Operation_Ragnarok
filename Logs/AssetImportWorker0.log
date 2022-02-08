@@ -67,15 +67,6 @@ System memory in use after: 85.2 MB.
 Unloading 24 unused Assets to reduce memory usage. Loaded Objects now: 2260.
 Total: 2.279400 ms (FindLiveObjects: 0.179800 ms CreateObjectMapping: 0.090800 ms MarkObjects: 1.867200 ms  DeleteObjects: 0.140200 ms)
 
-========================================================================
-Received Import Request.
-  path: Assets/Module/Attack_Module.cs
-  artifactKey: Guid(33a9615c3f166d747a493b630452f246) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Module/Attack_Module.cs using Guid(33a9615c3f166d747a493b630452f246) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6658e95ca354146204500626bbc89b5e') in 0.057158 seconds
-  Import took 0.077732 seconds .
-
-========================================================================
-Received Import Request.
   Time since last request: 14.988960 seconds.
   path: Assets/Module/Attack_Module.cs
   artifactKey: Guid(33a9615c3f166d747a493b630452f246) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
@@ -166,7 +157,3 @@ Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 1813 Unused Serialized files (Serialized files now loaded: 0)
 System memory in use before: 85.2 MB.
 System memory in use after: 85.2 MB.
-
-Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 2276.
-Total: 2.646500 ms (FindLiveObjects: 0.220700 ms CreateObjectMapping: 0.085900 ms MarkObjects: 2.195600 ms  DeleteObjects: 0.143000 ms)
-
