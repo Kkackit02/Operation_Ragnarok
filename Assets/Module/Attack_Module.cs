@@ -6,7 +6,7 @@ public class Attack_Module : Module
 {
     public bool isConnected = false;
     public Ship_Controller Connected_Ship;
-
+    public List<GameObject> Muzzle_Part;
     void Start()
     {
         Back_Joint_Part = gameObject.transform.GetChild(0).gameObject;
