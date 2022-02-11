@@ -8,6 +8,7 @@ TagManager:
   - Module
   - Joint
   - Jointed
+  - PlayerAttack
   layers:
   - Default
   - TransparentFX

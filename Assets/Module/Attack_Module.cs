@@ -4,27 +4,57 @@ using UnityEngine;
 
 public class Attack_Module : Module
 {
-    public bool isConnected = false;
-    public Ship_Controller Connected_Ship;
+    
+    
     public List<GameObject> Muzzle_Part;
+    public bool isAttack;
+    public GameObject Bullet_Object;
     void Start()
     {
+        StartCoroutine(Attack());
         Back_Joint_Part = gameObject.transform.GetChild(0).gameObject;
+        Blind_Joint();
+        OFF_Joint();
+        
     }
 
-    // Update is called once per frame
+
+    private IEnumerator Attack()
+    {
+        while(true)
+        {
+            if(isAttack == true)
+            {
+                var Bullet = Instantiate(Bullet_Object, Muzzle_Part[0].transform);
+                Bullet.transform.parent = null;
+            }
+            
+            yield return new WaitForSeconds(0.3f);
+        }
+    }
     void Update()
     {
-        if(isConnected == true)
+        if(Input.GetKey(KeyCode.Space))
         {
-            Connected_Ship.Attack_Module.Add(this);
+            isAttack = true;
         }
         else
         {
-            Connected_Ship.Attack_Module.Remove(this);
+            isAttack = false;
         }
     }
 
+    public override void OnMouseOver()
+    {
+        GameManager.Instance.Display_Ship_Joint();
+        //OFF_Joint();
+    }
 
-    
+    public override void OnMouseExit()
+    {
+        GameManager.Instance.Blind_Ship_Joint();
+        //ON_Joint();
+    }
+
+
 }

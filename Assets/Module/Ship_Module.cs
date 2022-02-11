@@ -16,13 +16,13 @@ public class Ship_Module : Module
     public override void OnMouseOver()
     {
         GameManager.Instance.Display_Ship_Joint();
-        ON_Joint();
+        //ON_Joint();
     }
 
     public override void OnMouseExit()
     {
         GameManager.Instance.Blind_Ship_Joint();
-        OFF_Joint();
+        //OFF_Joint();
     }
 
    
