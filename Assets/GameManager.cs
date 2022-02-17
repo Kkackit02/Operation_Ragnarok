@@ -8,7 +8,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get { return instance; } }
 
     public List<GameObject> Joint_Part;
-    public GameObject MainShip;
+    public GameObject MainShip_Object;
+    public Ship_Module MainShip_Module_Script;
     public int connected_Moudule_Count = 0;
     
     private void Awake()

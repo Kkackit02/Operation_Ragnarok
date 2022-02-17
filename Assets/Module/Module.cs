@@ -16,11 +16,16 @@ public class Module : Drag
     public bool isContact = false;
     public bool isActive = false;
 
-    protected bool isBoost = false;
+    private float Module_Mass = 0.5f;
+    public int DirCode; //0 = null, 1 = forward, 2 = back, 3 = left, 4 = right
+
     public int floor = 0;
 
     private void Start()
     {
+        
+        
+
         /*
          * 부품별로 다르게 해주세요.
 
@@ -100,6 +105,7 @@ public class Module : Drag
         if (Forward_Joint_Part != null)
         {
             Forward_Joint_Part.gameObject.tag = "Joint";
+            
             Forward_Joint_Part.GetComponent<BoxCollider2D>().size = new Vector2(1.0f, 1.0f);
         }
             
@@ -161,7 +167,37 @@ public class Module : Drag
         }
     }
 
+    public virtual void Change_Dir(GameObject Joint)
+    {
+        if (Joint.transform.name == "Forward")
+        {
+            DirCode = 1;
 
+        }
+        else if (Joint.transform.name == "Back")
+        {
+            DirCode = 2;
+
+        }
+        else if (Joint.transform.name == "Left")
+        {
+            DirCode = 3;
+
+        }
+        else if (Joint.transform.name == "Right")
+        {
+            DirCode = 4;
+        }
+    }
+    public virtual void Reset_Dir()
+    {
+        DirCode = 0;
+    }
+    
+    public virtual void Destroy_Module()
+    {
+
+    }
 
 
     public override void OnMouseUpAsButton()
@@ -173,17 +209,16 @@ public class Module : Drag
             if (Contact_Joint != null)
             {
                 transform.position = Contact_Joint.transform.position;
+                //GetComponent<FixedJoint2D>().connectedBody = Contact_Joint.gameObject.GetComponent<Rigidbody2D>();
                 Parent = Contact_Joint.gameObject;
                 this.gameObject.transform.parent = Parent.transform;
                 gameObject.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
-                if(isBoost == false)
-                {
-                    GetComponent<Rigidbody2D>().isKinematic = true;
-                }
-                
+                GetComponent<Rigidbody2D>().isKinematic = true;
+
                 Contact_Joint.gameObject.tag = "Jointed";
                 ON_Joint();
                 Change_Tag_To_Jointed(Contact_Joint);
+                Change_Dir(Contact_Joint);
                 Contact_Joint.GetComponent<BoxCollider2D>().size = new Vector2(0.01f, 0.01f);
             } 
             isConnect = true;
@@ -191,6 +226,7 @@ public class Module : Drag
             
             GameManager.Instance.Joint_Part.Add(gameObject);
             GameManager.Instance.connected_Moudule_Count++;
+            GameManager.Instance.MainShip_Module_Script.AddMass(Module_Mass);
         }
         if (isContact && isConnect) // 부착 후 떼어냈다가 접합부에 닿았을 때
         {
@@ -198,32 +234,26 @@ public class Module : Drag
             if (Contact_Joint != null)
             {
                 transform.position = Contact_Joint.transform.position;
+                //GetComponent<FixedJoint2D>().connectedBody = Contact_Joint.gameObject.GetComponent<Rigidbody2D>();
                 Parent = Contact_Joint.gameObject;
                 this.gameObject.transform.parent = Parent.transform;
-                if (isBoost == false)
-                {
-                    GetComponent<Rigidbody2D>().isKinematic = true;
-                }
+                GetComponent<Rigidbody2D>().isKinematic = true;
                 gameObject.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
                 Contact_Joint.gameObject.tag = "Jointed";
                 ON_Joint();
                 Change_Tag_To_Jointed(Contact_Joint);
+                Change_Dir(Contact_Joint);
                 Contact_Joint.GetComponent<BoxCollider2D>().size = new Vector2(0.01f, 0.01f);
             }
-            
             isConnect = true;
-            
-            
         }
         else if (!isContact && isConnect)  // 부착 후 떼어냈을때(접합부에서 떨어졌을때)
         {
             if(Contact_Joint != null)
             {
                 Contact_Joint.gameObject.tag = "Joint";
-                if (isBoost == false)
-                {
-                    GetComponent<Rigidbody2D>().isKinematic = true;
-                }
+                //GetComponent<FixedJoint2D>().connectedBody = null;
+                GetComponent<Rigidbody2D>().isKinematic = false;
                 Contact_Joint.GetComponent<BoxCollider2D>().size = new Vector2(1f, 1f);
                 Contact_Joint = null;
                 OFF_Joint();
@@ -235,8 +265,10 @@ public class Module : Drag
             
             Blind_Joint();
             Change_Tag_To_Joint();
+            Reset_Dir();
             GameManager.Instance.Joint_Part.Remove(gameObject);
             GameManager.Instance.connected_Moudule_Count--;
+            GameManager.Instance.MainShip_Module_Script.AddMass(-Module_Mass);
         }
     }
     /*
