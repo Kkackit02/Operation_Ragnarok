@@ -8,6 +8,7 @@ TagManager:
   - Module
   - Joint
   - Jointed
+  - PlayerAttack
   layers:
   - Default
   - TransparentFX
@@ -42,6 +43,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: BackGround
+    uniqueID: 2485124535
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
