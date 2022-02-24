@@ -10,7 +10,7 @@ public class Boost_Module : Module
     public bool isDrive = false;
     private float boostPower = 20f;
     private float reverseBoostPower = 10f;
-    private Rigidbody2D Ship_rd;
+    public Rigidbody2D Ship_rd;
 
 
 
@@ -44,14 +44,7 @@ public class Boost_Module : Module
 
     void Start()
     {
-        if(isPlayer)
-        {
-            Ship_rd = GameManager.Instance.MainShip_Object.GetComponent<Rigidbody2D>();
-        }
-        else
-        {
-            // Ship_rd에 직접 지정해줘야합니다.
-        }
+        
 
         //Forward_Joint_Part = gameObject.transform.GetChild(0).gameObject;
         Blind_Joint();
@@ -59,6 +52,11 @@ public class Boost_Module : Module
         boostPower = module_Data.BoostPower;
         reverseBoostPower = module_Data.ReverseBoostPower;
 
+    }
+
+    protected override void Set_Rd()
+    {
+        Ship_rd = GameManager.Instance.MainShip_Object.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -77,6 +75,15 @@ public class Boost_Module : Module
                     Ship_rd.AddRelativeForce(Vector2.up * reverseBoostPower);
                 }
 
+                if (Input.GetKey(KeyCode.RightArrow))
+                {
+                    Ship_rd.AddRelativeForce(Vector2.right * reverseBoostPower / 2);
+                }
+                else if (Input.GetKey(KeyCode.LeftArrow))
+                {
+                    Ship_rd.AddRelativeForce(Vector2.left * reverseBoostPower / 2);
+                }
+
             }
             else if (DirCode == 2)
             {
@@ -87,6 +94,15 @@ public class Boost_Module : Module
                 else if (Input.GetKey(KeyCode.DownArrow))
                 {
                     Ship_rd.AddRelativeForce(Vector2.down * reverseBoostPower);
+                }
+
+                if (Input.GetKey(KeyCode.RightArrow))
+                {
+                    Ship_rd.AddRelativeForce(Vector2.right * reverseBoostPower / 2);
+                }
+                else if (Input.GetKey(KeyCode.LeftArrow))
+                {
+                    Ship_rd.AddRelativeForce(Vector2.left * reverseBoostPower / 2);
                 }
 
             }
@@ -101,7 +117,14 @@ public class Boost_Module : Module
                 {
                     Ship_rd.AddRelativeForce(Vector2.left * reverseBoostPower);
                 }
-
+                if (Input.GetKey(KeyCode.UpArrow))
+                {
+                    Ship_rd.AddRelativeForce(Vector2.up * reverseBoostPower/2);
+                }
+                else if (Input.GetKey(KeyCode.DownArrow))
+                {
+                    Ship_rd.AddRelativeForce(Vector2.down * reverseBoostPower/2);
+                }
                 if (Input.GetKey(KeyCode.E))
                 {
                     Ship_rd.AddTorque(-(new Vector3(1, 0, 0).magnitude) * boostPower);
@@ -121,7 +144,14 @@ public class Boost_Module : Module
                 {
                     Ship_rd.AddRelativeForce(Vector2.right * reverseBoostPower);
                 }
-
+                if (Input.GetKey(KeyCode.UpArrow))
+                {
+                    Ship_rd.AddRelativeForce(Vector2.up * reverseBoostPower / 2);
+                }
+                else if (Input.GetKey(KeyCode.DownArrow))
+                {
+                    Ship_rd.AddRelativeForce(Vector2.down * reverseBoostPower / 2);
+                }
                 if (Input.GetKey(KeyCode.Q))
                 {
                     Ship_rd.AddTorque(new Vector3(1, 0, 0).magnitude * boostPower);
@@ -157,6 +187,30 @@ public class Boost_Module : Module
                         Ship_rd.AddRelativeForce(Vector2.down * boostPower);
                         break;
                 }
+
+                switch (x_Dir)
+                {
+                    case X_DirState.Stop:
+                        break;
+                    case X_DirState.Left:
+                        Ship_rd.AddRelativeForce(Vector2.left * reverseBoostPower / 2);
+                        break;
+                    case X_DirState.Right:
+                        Ship_rd.AddRelativeForce(Vector2.right * reverseBoostPower / 2);
+                        break;
+                }
+
+                switch (z_Dir)
+                {
+                    case Z_DirState.Stop:
+                        break;
+                    case Z_DirState.Left:
+                        Ship_rd.AddTorque(new Vector3(1, 0, 0).magnitude * reverseBoostPower / 2);
+                        break;
+                    case Z_DirState.Right:
+                        Ship_rd.AddTorque(-(new Vector3(1, 0, 0).magnitude) * reverseBoostPower / 2);
+                        break;
+                }
             }
             else if (DirCode == 2)
             {
@@ -172,10 +226,46 @@ public class Boost_Module : Module
                         break;
                 }
 
+                switch (x_Dir)
+                {
+                    case X_DirState.Stop:
+                        break;
+                    case X_DirState.Left:
+                        Ship_rd.AddRelativeForce(Vector2.left * reverseBoostPower / 2);
+                        break;
+                    case X_DirState.Right:
+                        Ship_rd.AddRelativeForce(Vector2.right * reverseBoostPower / 2);
+                        break;
+                }
+
+                switch (z_Dir)
+                {
+                    case Z_DirState.Stop:
+                        break;
+                    case Z_DirState.Left:
+                        Ship_rd.AddTorque(new Vector3(1, 0, 0).magnitude * reverseBoostPower / 2);
+                        break;
+                    case Z_DirState.Right:
+                        Ship_rd.AddTorque(-(new Vector3(1, 0, 0).magnitude) * reverseBoostPower / 2);
+                        break;
+                }
+
             }
 
             if (DirCode == 3)
             {
+
+                switch (y_Dir)
+                {
+                    case Y_DirState.Stop:
+                        break;
+                    case Y_DirState.Forward:
+                        Ship_rd.AddRelativeForce(Vector2.up * reverseBoostPower / 2);
+                        break;
+                    case Y_DirState.Back:
+                        Ship_rd.AddRelativeForce(Vector2.down * reverseBoostPower / 2);
+                        break;
+                }
                 switch (x_Dir)
                 {
                     case X_DirState.Stop:
@@ -203,6 +293,17 @@ public class Boost_Module : Module
             }
             else if (DirCode == 4)
             {
+                switch (y_Dir)
+                {
+                    case Y_DirState.Stop:
+                        break;
+                    case Y_DirState.Forward:
+                        Ship_rd.AddRelativeForce(Vector2.up * reverseBoostPower / 2);
+                        break;
+                    case Y_DirState.Back:
+                        Ship_rd.AddRelativeForce(Vector2.down * reverseBoostPower / 2);
+                        break;
+                }
                 switch (x_Dir)
                 {
                     case X_DirState.Stop:

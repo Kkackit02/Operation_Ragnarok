@@ -46,7 +46,16 @@ public class Attack_Module : Module
     }
     void Update()
     {
-        if(isConnect == true && isPlayer)
+        if (isConnect == true && attack_State == Attack_State.Stop)
+        {
+            isAttack = false;
+        }
+        else if (isConnect == true && attack_State == Attack_State.Attack)
+        {
+            isAttack = true;
+        }
+
+        if (isConnect == true && isPlayer)
         {
             if (Input.GetKey(KeyCode.Space))
             {
@@ -58,14 +67,7 @@ public class Attack_Module : Module
             }
         }
         
-        if(isConnect == true && attack_State == Attack_State.Stop)
-        {
-            isAttack = false;
-        }
-        else if(isConnect == true && attack_State == Attack_State.Attack)
-        {
-            isAttack = true;
-        }
+        
         
     }
 

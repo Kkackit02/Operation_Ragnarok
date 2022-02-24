@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Ship_Module : Module
 {
-    private float boostPower = 10.0f;
+    private float boostPower = 20.0f;
     public Rigidbody2D Ship_rd;
     
 
@@ -53,8 +53,8 @@ public class Ship_Module : Module
     public void AddMass(float mass)
     {
         ship_Mass += mass;
-        ship_Drag = ship_Mass / 9f;
-        ship_Angular_Drag = ship_Mass / 2f;
+        ship_Drag = ship_Mass / 8f;
+        ship_Angular_Drag = ship_Mass / 1.5f;
 
         Ship_rd.mass = ship_Mass;
         Ship_rd.drag = ship_Drag;
@@ -84,11 +84,11 @@ public class Ship_Module : Module
 
             if (Input.GetKey(KeyCode.Q))
             {
-                Ship_rd.AddTorque(0.05f);
+                Ship_rd.AddTorque(2f);
             }
             else if (Input.GetKey(KeyCode.E))
             {
-                Ship_rd.AddTorque(-0.05f);
+                Ship_rd.AddTorque(-2f);
             }
         }
         else
