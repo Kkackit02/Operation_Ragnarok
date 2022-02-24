@@ -12,7 +12,13 @@ public class Attack_Module : Module
 
     private float module_Damage = 10f;
     private float module_Dalay = 0.3f;
+    public enum Attack_State // °¢µµ
+    {
+        Stop,
+        Attack
+    }
 
+    public Attack_State attack_State = Attack_State.Stop;
     void Start()
     {
         StartCoroutine(Attack());
@@ -40,7 +46,16 @@ public class Attack_Module : Module
     }
     void Update()
     {
-        if(isConnect == true)
+        if (isConnect == true && attack_State == Attack_State.Stop)
+        {
+            isAttack = false;
+        }
+        else if (isConnect == true && attack_State == Attack_State.Attack)
+        {
+            isAttack = true;
+        }
+
+        if (isConnect == true && isPlayer)
         {
             if (Input.GetKey(KeyCode.Space))
             {
@@ -52,16 +67,20 @@ public class Attack_Module : Module
             }
         }
         
+        
+        
     }
 
     public override void OnMouseOver()
     {
+        if(isPlayer)
         GameManager.Instance.Display_Ship_Joint();
         //OFF_Joint();
     }
 
     public override void OnMouseExit()
     {
+        if(isPlayer)
         GameManager.Instance.Blind_Ship_Joint();
         //ON_Joint();
     }

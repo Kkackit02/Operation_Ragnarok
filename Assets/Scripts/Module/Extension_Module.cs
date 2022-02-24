@@ -13,6 +13,33 @@ public class Extension_Module : Module
         Blind_Joint();
         OFF_Joint();
     }
+
+    public override void Change_Dir(GameObject Joint)
+    {
+        if (Joint.transform.name == "Forward")
+        {
+            DirCode = 1;
+            
+        }
+        else if (Joint.transform.name == "Back")
+        {
+           
+            DirCode = 2;
+
+        }
+        else if (Joint.transform.name == "Left")
+        {
+           
+            DirCode = 3;
+
+        }
+        else if (Joint.transform.name == "Right")
+        {
+          
+            DirCode = 4;
+        }
+    }
+
     public override void OnMouseOver()
     {
         GameManager.Instance.Display_Ship_Joint();
