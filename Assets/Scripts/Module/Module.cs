@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Module : Drag
 {
+    public bool canAccess = false;
     public GameObject Forward_Joint_Part;
     public GameObject Back_Joint_Part;
     public GameObject Left_Joint_Part;
@@ -23,8 +24,11 @@ public class Module : Drag
     private float Module_Hp = 100f;
 
 
-    public int floor = 0;
 
+
+
+    public int floor = 0;
+    public bool isPlayer = false;
     private void Start()
     {
         Module_Hp = module_Data.ModuleHp;
@@ -44,14 +48,21 @@ public class Module : Drag
 
     public virtual void OnMouseOver()
     {
-        ON_Joint();
-        Display_Joint();
+        if(canAccess == true)
+        {
+            ON_Joint();
+            Display_Joint();
+        }
+        
     }
 
     public virtual void OnMouseExit()
     {
-        OFF_Joint();
-        Blind_Joint();
+        if(canAccess == true)
+        {
+            OFF_Joint();
+            Blind_Joint();
+        }
     }
 
 
@@ -257,7 +268,7 @@ public class Module : Drag
             if (Forward_Joint_Part.transform.childCount != 0)
             {
                 Forward_Joint_Part.transform.GetChild(0).GetComponent<Module>().Decompose_Module(true);
-                
+                Forward_Joint_Part.transform.GetChild(0).GetComponent<Module>().canAccess = true;
             }
         }
         if(Back_Joint_Part.gameObject != null)
@@ -265,16 +276,15 @@ public class Module : Drag
             if (Back_Joint_Part.transform.childCount != 0)
             {
                 Back_Joint_Part.transform.GetChild(0).GetComponent<Module>().Decompose_Module(true);
-                
+                Back_Joint_Part.transform.GetChild(0).GetComponent<Module>().canAccess = true;
             }
         }
         if(Left_Joint_Part.gameObject != null)
         {
             if (Left_Joint_Part.transform.childCount != 0)
             {
-                
                 Left_Joint_Part.transform.GetChild(0).GetComponent<Module>().Decompose_Module(true);
-                
+                Left_Joint_Part.transform.GetChild(0).GetComponent<Module>().canAccess = true;
             }
         }
 
@@ -283,7 +293,7 @@ public class Module : Drag
             if (Right_Joint_Part.transform.childCount != 0)
             {
                 Right_Joint_Part.transform.GetChild(0).GetComponent<Module>().Decompose_Module(true);
-                
+                Right_Joint_Part.transform.GetChild(0).GetComponent<Module>().canAccess = true;
             }
         }
 
@@ -307,7 +317,7 @@ public class Module : Drag
         GetComponent<Rigidbody2D>().AddForce
             (new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f)), ForceMode2D.Impulse);
 
-        if (hasConnect == true)
+        if (hasConnect == true && canAccess == true)
         {
             GameManager.Instance.Joint_Part.Remove(gameObject);
             GameManager.Instance.connected_Moudule_Count--;
@@ -321,27 +331,31 @@ public class Module : Drag
 
     public override void OnMouseUpAsButton()
     {
-        isDraging = false;
-        if (isContact && !isConnect) // ºÎÂø Àü¿¡ Á¢ÇÕºÎ¿¡ ´ê¾ÒÀ» ¶§
+        if(canAccess == true)
         {
-            Compose_Module();
-            GameManager.Instance.Joint_Part.Add(gameObject);
-            GameManager.Instance.connected_Moudule_Count++;
-            GameManager.Instance.MainShip_Module_Script.AddMass(Module_Mass);
+            isDraging = false;
+            if (isContact && !isConnect) // ºÎÂø Àü¿¡ Á¢ÇÕºÎ¿¡ ´ê¾ÒÀ» ¶§
+            {
+                Compose_Module();
+                GameManager.Instance.Joint_Part.Add(gameObject);
+                GameManager.Instance.connected_Moudule_Count++;
+                GameManager.Instance.MainShip_Module_Script.AddMass(Module_Mass);
+            }
+            else if (isContact && isConnect) // ºÎÂø ÈÄ ¶¼¾î³Â´Ù°¡ Á¢ÇÕºÎ¿¡ ´ê¾ÒÀ» ¶§
+            {
+                Compose_Module();
+            }
+            else if (!isContact && isConnect)  // ºÎÂø ÈÄ ¶¼¾î³ÂÀ»¶§(Á¢ÇÕºÎ¿¡¼­ ¶³¾îÁ³À»¶§)
+            {
+                Decompose_Module(isConnect);
+
+            }
+            else if (!isConnect && !isContact)
+            {
+                Decompose_Module(isConnect);
+            }
         }
-        else if (isContact && isConnect) // ºÎÂø ÈÄ ¶¼¾î³Â´Ù°¡ Á¢ÇÕºÎ¿¡ ´ê¾ÒÀ» ¶§
-        {
-            Compose_Module();
-        }
-        else if (!isContact && isConnect)  // ºÎÂø ÈÄ ¶¼¾î³ÂÀ»¶§(Á¢ÇÕºÎ¿¡¼­ ¶³¾îÁ³À»¶§)
-        {
-            Decompose_Module(isConnect);
-            
-        }
-        else if (!isConnect && !isContact)
-        {
-            Decompose_Module(isConnect);
-        }
+        
     }
     /*
     private void OnTriggerEnter2D(Collider2D collision)
