@@ -10,8 +10,8 @@ public class Attack_Module : Module
     public bool isAttack;
     public GameObject Bullet_Object;
 
-    private float module_Damage = 10f;
-    private float module_Dalay = 0.3f;
+    protected float module_Damage = 10f;
+    protected float module_Dalay = 0.3f;
     public enum Attack_State // °¢µµ
     {
         Stop,
@@ -31,17 +31,22 @@ public class Attack_Module : Module
     }
 
 
+    protected virtual void Attack_Func()
+    {
+        if (isAttack == true)
+        {
+            var Bullet = Instantiate(Bullet_Object, Muzzle_Part[0].transform);
+            Bullet.transform.parent = null;
+        }
+    }
+
     private IEnumerator Attack()
     {
         while(true)
         {
-            if(isAttack == true)
-            {
-                var Bullet = Instantiate(Bullet_Object, Muzzle_Part[0].transform);
-                Bullet.transform.parent = null;
-            }
+            Attack_Func();
             
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(module_Dalay);
         }
     }
     void Update()
@@ -66,9 +71,12 @@ public class Attack_Module : Module
                 isAttack = false;
             }
         }
-        
-        
-        
+    }
+
+
+    protected override void Reset_Flag()
+    {
+        attack_State = Attack_State.Stop;
     }
 
     public override void OnMouseOver()

@@ -58,6 +58,12 @@ public class Boost_Module : Module
     {
         Ship_rd = GameManager.Instance.MainShip_Object.GetComponent<Rigidbody2D>();
     }
+    protected override void Reset_Flag()
+    {
+        y_Dir = Y_DirState.Stop;
+        x_Dir = X_DirState.Stop;
+        z_Dir = Z_DirState.Stop;
+    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -125,6 +131,7 @@ public class Boost_Module : Module
                 {
                     Ship_rd.AddRelativeForce(Vector2.down * reverseBoostPower/2);
                 }
+
                 if (Input.GetKey(KeyCode.E))
                 {
                     Ship_rd.AddTorque(-(new Vector3(1, 0, 0).magnitude) * boostPower);
@@ -152,6 +159,7 @@ public class Boost_Module : Module
                 {
                     Ship_rd.AddRelativeForce(Vector2.down * reverseBoostPower / 2);
                 }
+
                 if (Input.GetKey(KeyCode.Q))
                 {
                     Ship_rd.AddTorque(new Vector3(1, 0, 0).magnitude * boostPower);
@@ -162,14 +170,6 @@ public class Boost_Module : Module
                 }
             }
 
-            if (Input.GetKey(KeyCode.Q))
-            {
-                Ship_rd.AddTorque((new Vector3(0.5f, 0, 0).magnitude) * boostPower);
-            }
-            else if (Input.GetKey(KeyCode.E))
-            {
-                Ship_rd.AddTorque(-(new Vector3(0.5f, 0, 0).magnitude) * boostPower);
-            }
         }
         
         else

@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.up * 50f * Time.deltaTime);
+        transform.Translate(Vector3.up * 100f * Time.deltaTime);
     }
 
     private IEnumerator Destroy_Timer()

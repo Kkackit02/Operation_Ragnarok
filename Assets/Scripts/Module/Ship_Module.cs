@@ -61,6 +61,12 @@ public class Ship_Module : Module
         Ship_rd.angularDrag = ship_Angular_Drag;
     }
 
+    protected override void Reset_Flag()
+    {
+        y_Dir = Y_DirState.Stop;
+        x_Dir = X_DirState.Stop;
+        z_Dir = Z_DirState.Stop;
+    }
     public void FixedUpdate()
     {
         if(isPlayer == true)

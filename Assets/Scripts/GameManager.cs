@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Destroy(this.gameObject);
+            Destroy(this.gameObject);    
         }
 
     }
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
                 {
                     Joint_Part[i].GetComponent<Extension_Module>().Blind_Joint();
                 }
-                if (Joint_Part[i].GetComponent<Ship_Module>() != null)
+                else if (Joint_Part[i].GetComponent<Ship_Module>() != null)
                 {
                     Joint_Part[i].GetComponent<Ship_Module>().Blind_Joint();
                 }

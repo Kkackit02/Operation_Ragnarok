@@ -260,6 +260,7 @@ public class Module : Drag
             Set_Rd();
         }
         isConnect = true;
+        isContact = true;
     }
 
     public virtual void Decompose_Module(bool hasConnect)
@@ -320,9 +321,11 @@ public class Module : Drag
         Blind_Joint();
         Change_Tag_To_Joint();
         Reset_Dir();
+        Reset_Flag();
         GetComponent<Rigidbody2D>().AddForce
             (new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f)), ForceMode2D.Impulse);
         
+
         if (hasConnect == true && canAccess == true && isPlayer)
         {
             GameManager.Instance.Joint_Part.Remove(gameObject);
@@ -332,6 +335,11 @@ public class Module : Drag
             
         }
         
+    }
+
+    protected virtual void Reset_Flag()
+    {
+
     }
 
     protected virtual void Set_Rd()
