@@ -5,14 +5,19 @@ using UnityEngine;
 public class Boost_Module : Module
 {
     public bool isConnected = false;
+
+    private bool isX = false;
+    private bool isY = false;
+    private bool isZ = false;
+
     public Ship_Controller Connected_Ship;
     private Enemy_AI enemy_AI_Script;
     public bool isDrive = false;
     private float boostPower = 20f;
     private float reverseBoostPower = 10f;
     public Rigidbody2D Ship_rd;
-
-
+    public GameObject BoosterEffect;
+    public Animator BoostAni;
 
     public enum Y_DirState
     {
@@ -44,8 +49,10 @@ public class Boost_Module : Module
 
     void Start()
     {
-        
-
+        BoosterEffect = gameObject.transform.GetChild(0).gameObject;
+        BoosterEffect.SetActive(false);
+        myAudio = GetComponent<AudioSource>();
+        myAudio.volume = 0.6f;
         //Forward_Joint_Part = gameObject.transform.GetChild(0).gameObject;
         Blind_Joint();
         OFF_Joint();
@@ -58,22 +65,40 @@ public class Boost_Module : Module
     {
         Ship_rd = GameManager.Instance.MainShip_Object.GetComponent<Rigidbody2D>();
     }
+    protected override void Reset_Flag()
+    {
+        y_Dir = Y_DirState.Stop;
+        x_Dir = X_DirState.Stop;
+        z_Dir = Z_DirState.Stop;
+    }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         if(isPlayer)
         {
+            
             if (DirCode == 1)//0 = null, 1 = forward, 2 = back, 3 = left, 4 = right
             {
                 if (Input.GetKey(KeyCode.DownArrow))
                 {
                     Ship_rd.AddRelativeForce(Vector2.down * boostPower);
+                    isY = true;
+                    if(BoosterEffect.activeSelf == false)
+                    {
+                        BoosterEffect.SetActive(true);
+                    }
                 }
                 else if (Input.GetKey(KeyCode.UpArrow))
                 {
+                    isY = false;
                     Ship_rd.AddRelativeForce(Vector2.up * reverseBoostPower);
                 }
+                else
+                {
+                    isY = false;
+                }
+
 
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
@@ -83,6 +108,19 @@ public class Boost_Module : Module
                 {
                     Ship_rd.AddRelativeForce(Vector2.left * reverseBoostPower / 2);
                 }
+                else
+                {
+                    isX = false;
+                }
+
+                if(!isX && !isY)
+                {
+                    if (BoosterEffect.activeSelf == true)
+                    {
+                        BoosterEffect.SetActive(false);
+                    }
+                }
+
 
             }
             else if (DirCode == 2)
@@ -90,10 +128,20 @@ public class Boost_Module : Module
                 if (Input.GetKey(KeyCode.UpArrow))
                 {
                     Ship_rd.AddRelativeForce(Vector2.up * boostPower);
+                    isY = true;
+                    if (BoosterEffect.activeSelf == false)
+                    {
+                        BoosterEffect.SetActive(true);
+                    }
                 }
                 else if (Input.GetKey(KeyCode.DownArrow))
                 {
+                    isY = false;
                     Ship_rd.AddRelativeForce(Vector2.down * reverseBoostPower);
+                }
+                else
+                {
+                    isY = false;
                 }
 
                 if (Input.GetKey(KeyCode.RightArrow))
@@ -104,7 +152,19 @@ public class Boost_Module : Module
                 {
                     Ship_rd.AddRelativeForce(Vector2.left * reverseBoostPower / 2);
                 }
+                else
+                {
+                    isX = false;
+                }
 
+
+                if (!isX && !isY)
+                {
+                    if (BoosterEffect.activeSelf == true)
+                    {
+                        BoosterEffect.SetActive(false);
+                    }
+                }
             }
 
             if (DirCode == 3)
@@ -112,11 +172,22 @@ public class Boost_Module : Module
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
                     Ship_rd.AddRelativeForce(Vector2.right * boostPower);
+                    isX = true;
+                    if (BoosterEffect.activeSelf == false)
+                    {
+                        BoosterEffect.SetActive(true);
+                    }
                 }
                 else if (Input.GetKey(KeyCode.LeftArrow))
                 {
+                    isX = false;
                     Ship_rd.AddRelativeForce(Vector2.left * reverseBoostPower);
                 }
+                else
+                {
+                    isX = false;
+                }
+
                 if (Input.GetKey(KeyCode.UpArrow))
                 {
                     Ship_rd.AddRelativeForce(Vector2.up * reverseBoostPower/2);
@@ -125,13 +196,36 @@ public class Boost_Module : Module
                 {
                     Ship_rd.AddRelativeForce(Vector2.down * reverseBoostPower/2);
                 }
+                else
+                {
+                    isY = false;
+                }
+
                 if (Input.GetKey(KeyCode.E))
                 {
+                    isZ = true;
                     Ship_rd.AddTorque(-(new Vector3(1, 0, 0).magnitude) * boostPower);
+                    if (BoosterEffect.activeSelf == false)
+                    {
+                        BoosterEffect.SetActive(true);
+                    }
                 }
                 else if (Input.GetKey(KeyCode.Q))
                 {
                     Ship_rd.AddTorque(new Vector3(1, 0, 0).magnitude * reverseBoostPower);
+                }
+
+                else
+                {
+                    isZ = false;
+                }
+
+                if(!isX && !isY && !isZ)
+                {
+                    if (BoosterEffect.activeSelf == true)
+                    {
+                        BoosterEffect.SetActive(false);
+                    }
                 }
             }
             else if (DirCode == 4)
@@ -139,11 +233,22 @@ public class Boost_Module : Module
                 if (Input.GetKey(KeyCode.LeftArrow))
                 {
                     Ship_rd.AddRelativeForce(Vector2.left * boostPower);
+                    isX = true;
+                    if (BoosterEffect.activeSelf == false)
+                    {
+                        BoosterEffect.SetActive(true);
+                    }
                 }
                 else if (Input.GetKey(KeyCode.RightArrow))
                 {
+                    isX = false;
                     Ship_rd.AddRelativeForce(Vector2.right * reverseBoostPower);
                 }
+                else
+                {
+                    isX = false;
+                }
+
                 if (Input.GetKey(KeyCode.UpArrow))
                 {
                     Ship_rd.AddRelativeForce(Vector2.up * reverseBoostPower / 2);
@@ -152,24 +257,40 @@ public class Boost_Module : Module
                 {
                     Ship_rd.AddRelativeForce(Vector2.down * reverseBoostPower / 2);
                 }
+                else
+                {
+                    isY = false;
+                }
+
+
                 if (Input.GetKey(KeyCode.Q))
                 {
+                    isZ = true;
                     Ship_rd.AddTorque(new Vector3(1, 0, 0).magnitude * boostPower);
+                    if (BoosterEffect.activeSelf == false)
+                    {
+                        BoosterEffect.SetActive(true);
+                    }
                 }
                 else if (Input.GetKey(KeyCode.E))
                 {
                     Ship_rd.AddTorque(-(new Vector3(1, 0, 0).magnitude) * reverseBoostPower);
                 }
+                else
+                {
+                    isZ = false;
+                }
+
+
+                if (!isX && !isY && !isZ)
+                {
+                    if (BoosterEffect.activeSelf == true)
+                    {
+                        BoosterEffect.SetActive(false);
+                    }
+                }
             }
 
-            if (Input.GetKey(KeyCode.Q))
-            {
-                Ship_rd.AddTorque((new Vector3(0.5f, 0, 0).magnitude) * boostPower);
-            }
-            else if (Input.GetKey(KeyCode.E))
-            {
-                Ship_rd.AddTorque(-(new Vector3(0.5f, 0, 0).magnitude) * boostPower);
-            }
         }
         
         else
@@ -179,12 +300,17 @@ public class Boost_Module : Module
                 switch (y_Dir)
                 {
                     case Y_DirState.Stop:
+                        BoosterEffect.SetActive(false);
                         break;
                     case Y_DirState.Forward:
                         Ship_rd.AddRelativeForce(Vector2.up * reverseBoostPower);
                         break;
                     case Y_DirState.Back:
                         Ship_rd.AddRelativeForce(Vector2.down * boostPower);
+                        if (BoosterEffect.activeSelf == false)
+                        {
+                            BoosterEffect.SetActive(true);
+                        }
                         break;
                 }
 
@@ -217,9 +343,14 @@ public class Boost_Module : Module
                 switch (y_Dir)
                 {
                     case Y_DirState.Stop:
+                        BoosterEffect.SetActive(false);
                         break;
                     case Y_DirState.Forward:
                         Ship_rd.AddRelativeForce(Vector2.up * boostPower);
+                        if (BoosterEffect.activeSelf == false)
+                        {
+                            BoosterEffect.SetActive(true);
+                        }
                         break;
                     case Y_DirState.Back:
                         Ship_rd.AddRelativeForce(Vector2.down * reverseBoostPower);
@@ -269,12 +400,17 @@ public class Boost_Module : Module
                 switch (x_Dir)
                 {
                     case X_DirState.Stop:
+                        BoosterEffect.SetActive(false);
                         break;
                     case X_DirState.Left:
                         Ship_rd.AddRelativeForce(Vector2.left * reverseBoostPower);
                         break;
                     case X_DirState.Right:
                         Ship_rd.AddRelativeForce(Vector2.right * boostPower);
+                        if (BoosterEffect.activeSelf == false)
+                        {
+                            BoosterEffect.SetActive(true);
+                        }
                         break;
                 }
 
@@ -307,12 +443,17 @@ public class Boost_Module : Module
                 switch (x_Dir)
                 {
                     case X_DirState.Stop:
+                        BoosterEffect.SetActive(false);
                         break;
                     case X_DirState.Left:
                         Ship_rd.AddRelativeForce(Vector2.left * reverseBoostPower);
                         break;
                     case X_DirState.Right:
                         Ship_rd.AddRelativeForce(Vector2.right * boostPower);
+                        if (BoosterEffect.activeSelf == false)
+                        {
+                            BoosterEffect.SetActive(true);
+                        }
                         break;
                 }
 

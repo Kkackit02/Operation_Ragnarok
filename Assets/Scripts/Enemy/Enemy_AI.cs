@@ -8,9 +8,13 @@ public class Enemy_AI : MonoBehaviour
 
     private float player_Relative_Distance = 0;
     private float player_Relative_Angle = 0;
-    private float AI_Hp = 100f;
+    private float aI_Hp = 100f;
+    private float Chase_Distance = 110f;
+    private float attack_Distance = 70f;
+    private float backing_Distance = 5f;
 
     public AIData aiData;
+
 
     public List<Attack_Module> Attack_Module_List;
     public List<Boost_Module> Boost_Module_List;
@@ -78,28 +82,28 @@ public class Enemy_AI : MonoBehaviour
 
     public void Update_State()
     {
-        if (AI_Hp >= 50f)
+        if (aI_Hp >= 50f)
         {
-            if (player_Relative_Distance >= 60f)
+            if (player_Relative_Distance >= Chase_Distance)
             {
                 Change_State(0);
             }
-            else if (player_Relative_Distance < 60f)
+            else
             {
-                if (player_Relative_Distance <= 40f)
+                if (player_Relative_Distance <= attack_Distance)
                 {
-                    Change_State(1);
+                    Change_State(2); //attack
                 }
                 else
                 {
-                    Change_State(2);
+                    Change_State(1); //chase
                 }
             }
         }
         else
         {
             Change_State(3);
-            if (AI_Hp <= 0)
+            if (aI_Hp <= 0)
             {
                 Change_State(4);
             }
@@ -196,9 +200,7 @@ public class Enemy_AI : MonoBehaviour
                 break;
 
             case AiState.Chase:
-                Debug.Log("Function Chase");
-                Debug.Log(transform.rotation.eulerAngles.z);
-                if(player_Relative_Angle > transform.rotation.eulerAngles.z + 30f)
+                if (player_Relative_Angle > transform.rotation.eulerAngles.z + 30f)
                 {
                     Signal_Angle_Boost(1);
                 }
@@ -213,14 +215,15 @@ public class Enemy_AI : MonoBehaviour
 
                 Signal_Drive_Boost(1);
                 break;
-            case AiState.Attack:
+
+            case AiState.Attack: //제자리 공격
                 Signal_Attack(1);
                 
-                if (player_Relative_Angle > transform.rotation.eulerAngles.z + 40f)
+                if (player_Relative_Angle > transform.rotation.eulerAngles.z + 3f)
                 {
                     Signal_Angle_Boost(1);
                 }
-                else if (player_Relative_Angle < transform.rotation.eulerAngles.z - 40f)
+                else if (player_Relative_Angle < transform.rotation.eulerAngles.z - 3f)
                 {
                     Signal_Angle_Boost(2);
                 }
@@ -332,7 +335,7 @@ public class Enemy_AI : MonoBehaviour
         }
         else if (dir == 1)
         {
-            for (int i = 0; i < Boost_Module_List.Count; i++)
+            for (int i = 0; i < Attack_Module_List.Count; i++)
             {
                 Attack_Module_List[i].attack_State = Attack_Module.Attack_State.Attack;
             }

@@ -6,13 +6,13 @@ public class Ship_Module : Module
 {
     private float boostPower = 20.0f;
     public Rigidbody2D Ship_rd;
-    
+    private bool isDie = false;
 
     public float ship_Mass = 2f;
     public float ship_Drag = 0.4f;
     public float ship_Angular_Drag = 0.5f;
 
-
+    //public new GameObject[] DestroyEffect;
 
     public enum Y_DirState
     {
@@ -41,6 +41,9 @@ public class Ship_Module : Module
 
     void Start()
     {
+
+        myAudio = GetComponent<AudioSource>();
+        myAudio.volume = 0.6f;
         Ship_rd = GetComponent<Rigidbody2D>();
         Forward_Joint_Part = gameObject.transform.GetChild(0).gameObject;
         Back_Joint_Part = gameObject.transform.GetChild(1).gameObject;
@@ -61,74 +64,111 @@ public class Ship_Module : Module
         Ship_rd.angularDrag = ship_Angular_Drag;
     }
 
+    protected override void Reset_Flag()
+    {
+        y_Dir = Y_DirState.Stop;
+        x_Dir = X_DirState.Stop;
+        z_Dir = Z_DirState.Stop;
+    }
     public void FixedUpdate()
     {
-        if(isPlayer == true)
+        if (isDie == false)
         {
-            if (Input.GetKey(KeyCode.DownArrow))
+            if (isPlayer == true)
             {
-                Ship_rd.AddRelativeForce(Vector2.down * boostPower);
-            }
-            else if (Input.GetKey(KeyCode.UpArrow))
-            {
-                Ship_rd.AddRelativeForce(Vector2.up * boostPower);
-            }
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                Ship_rd.AddRelativeForce(Vector2.right * boostPower);
-            }
-            else if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                Ship_rd.AddRelativeForce(Vector2.left * boostPower);
-            }
-
-            if (Input.GetKey(KeyCode.Q))
-            {
-                Ship_rd.AddTorque(2f);
-            }
-            else if (Input.GetKey(KeyCode.E))
-            {
-                Ship_rd.AddTorque(-2f);
-            }
-        }
-        else
-        {
-            switch(y_Dir)
-            {
-                case Y_DirState.Stop:
-                    break;
-                case Y_DirState.Forward:
-                    Ship_rd.AddRelativeForce(Vector2.up * boostPower);
-                    break;
-                case Y_DirState.Back:
+                if (Input.GetKey(KeyCode.DownArrow))
+                {
                     Ship_rd.AddRelativeForce(Vector2.down * boostPower);
-                    break;
-            }
-
-            switch (x_Dir)
-            {
-                case X_DirState.Stop:
-                    break;
-                case X_DirState.Left:
-                    Ship_rd.AddRelativeForce(Vector2.left * boostPower);
-                    break;
-                case X_DirState.Right:
+                }
+                else if (Input.GetKey(KeyCode.UpArrow))
+                {
+                    Ship_rd.AddRelativeForce(Vector2.up * boostPower);
+                }
+                if (Input.GetKey(KeyCode.RightArrow))
+                {
                     Ship_rd.AddRelativeForce(Vector2.right * boostPower);
-                    break;
-            }
+                }
+                else if (Input.GetKey(KeyCode.LeftArrow))
+                {
+                    Ship_rd.AddRelativeForce(Vector2.left * boostPower);
+                }
 
-            switch (z_Dir)
+                if (Input.GetKey(KeyCode.Q))
+                {
+                    Ship_rd.AddTorque(2f);
+                }
+                else if (Input.GetKey(KeyCode.E))
+                {
+                    Ship_rd.AddTorque(-2f);
+                }
+            }
+            else
             {
-                case Z_DirState.Stop:
-                    break;
-                case Z_DirState.Left:
-                    Ship_rd.AddTorque(0.05f);
-                    break;
-                case Z_DirState.Right:
-                    Ship_rd.AddTorque(-0.05f);
-                    break;
+                switch (y_Dir)
+                {
+                    case Y_DirState.Stop:
+                        break;
+                    case Y_DirState.Forward:
+                        Ship_rd.AddRelativeForce(Vector2.up * boostPower);
+                        break;
+                    case Y_DirState.Back:
+                        Ship_rd.AddRelativeForce(Vector2.down * boostPower);
+                        break;
+                }
+
+                switch (x_Dir)
+                {
+                    case X_DirState.Stop:
+                        break;
+                    case X_DirState.Left:
+                        Ship_rd.AddRelativeForce(Vector2.left * boostPower);
+                        break;
+                    case X_DirState.Right:
+                        Ship_rd.AddRelativeForce(Vector2.right * boostPower);
+                        break;
+                }
+
+                switch (z_Dir)
+                {
+                    case Z_DirState.Stop:
+                        break;
+                    case Z_DirState.Left:
+                        Ship_rd.AddTorque(0.05f);
+                        break;
+                    case Z_DirState.Right:
+                        Ship_rd.AddTorque(-0.05f);
+                        break;
+                }
             }
         }
+
+        
+        
+    }
+
+    public override void Destroy_Module()
+    {
+        if(isDestroy == false)
+        {
+            Decompose_Module(true);
+            myAudio.PlayOneShot(SoundManager.Instance.DestroyShip);
+            int a = Random.Range(0, 2);
+            GameObject A = Instantiate(DestroyEffect, this.gameObject.transform);
+            A.transform.parent = null;
+            isDestroy = true;
+
+            if (isPlayer == true)
+            {
+                GameManager.Instance.EndGame();
+            }
+            else
+            {
+                Destroy(this.gameObject);
+            }
+        }
+        
+        
+
         
     }
 
@@ -151,6 +191,20 @@ public class Ship_Module : Module
         //OFF_Joint();
     }
 
-   
+    public override void Update_Module_HP(float value)
+    {
+        Module_Hp -= value;
+        myAudio.PlayOneShot(SoundManager.Instance.BulletHit);
+        if(isPlayer == true)
+        {
+            GameManager.Instance.UpdateHP_UI(Module_Hp);
+        }
+        if (Module_Hp <= 0)
+        {
+            isDie = true;
+            Destroy_Module();
+        }
+
+    }
 
 }
