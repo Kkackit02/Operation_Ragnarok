@@ -6,6 +6,8 @@ public class Extension_Module : Module
 {
     void Start()
     {
+        myAudio = GetComponent<AudioSource>();
+        myAudio.volume = 0.6f;
         Forward_Joint_Part = gameObject.transform.GetChild(0).gameObject;
         Back_Joint_Part = gameObject.transform.GetChild(1).gameObject;
         Left_Joint_Part = gameObject.transform.GetChild(2).gameObject;
@@ -43,13 +45,13 @@ public class Extension_Module : Module
     public override void OnMouseOver()
     {
         GameManager.Instance.Display_Ship_Joint();
-        //OFF_Joint();
+        OFF_Joint();
     }
 
     public override void OnMouseExit()
     {
         GameManager.Instance.Blind_Ship_Joint();
-        //ON_Joint();
+        ON_Joint();
     }
 
 }

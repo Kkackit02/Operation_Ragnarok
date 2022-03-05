@@ -55,3 +55,6 @@ TagManager:
   - name: Module
     uniqueID: 4051492181
     locked: 0
+  - name: Effect
+    uniqueID: 1486466811
+    locked: 0

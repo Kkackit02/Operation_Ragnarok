@@ -21,6 +21,9 @@ public class Attack_Module : Module
     public Attack_State attack_State = Attack_State.Stop;
     void Start()
     {
+
+        myAudio = GetComponent<AudioSource>();
+        myAudio.volume = 0.45f;
         StartCoroutine(Attack());
         //Back_Joint_Part = gameObject.transform.GetChild(0).gameObject;
         Blind_Joint();
@@ -35,6 +38,7 @@ public class Attack_Module : Module
     {
         if (isAttack == true)
         {
+            myAudio.PlayOneShot(SoundManager.Instance.AttackFire);
             var Bullet = Instantiate(Bullet_Object, Muzzle_Part[0].transform);
             Bullet.transform.parent = null;
         }
@@ -58,6 +62,10 @@ public class Attack_Module : Module
         else if (isConnect == true && attack_State == Attack_State.Attack)
         {
             isAttack = true;
+        }
+        else if(isConnect == false && attack_State == Attack_State.Stop)
+        {
+            isAttack = false;
         }
 
         if (isConnect == true && isPlayer)

@@ -756,6 +756,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canAccess: 1
+  DestroyEffect: {fileID: 1343422024254995666, guid: 2f7ba19c23a721f4b842a4f8d9002956, type: 3}
   Forward_Joint_Part: {fileID: 1648695031812994356}
   Back_Joint_Part: {fileID: 1648695031928972314}
   Left_Joint_Part: {fileID: 1648695030588927963}
@@ -1076,6 +1077,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canAccess: 1
+  DestroyEffect: {fileID: 1343422024254995666, guid: 2f7ba19c23a721f4b842a4f8d9002956, type: 3}
   Forward_Joint_Part: {fileID: 0}
   Back_Joint_Part: {fileID: 0}
   Left_Joint_Part: {fileID: 0}
@@ -1455,6 +1457,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canAccess: 1
+  DestroyEffect: {fileID: 1343422024254995666, guid: 2f7ba19c23a721f4b842a4f8d9002956, type: 3}
   Forward_Joint_Part: {fileID: 0}
   Back_Joint_Part: {fileID: 0}
   Left_Joint_Part: {fileID: 0}
@@ -1704,6 +1707,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canAccess: 1
+  DestroyEffect: {fileID: 1343422024254995666, guid: 2f7ba19c23a721f4b842a4f8d9002956, type: 3}
   Forward_Joint_Part: {fileID: 0}
   Back_Joint_Part: {fileID: 0}
   Left_Joint_Part: {fileID: 0}
@@ -1956,6 +1960,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canAccess: 0
+  DestroyEffect: {fileID: 354728157626365235, guid: 02f6bb5a5c541ed45ac0e11a8470af4a, type: 3}
   Forward_Joint_Part: {fileID: 1648695030127997588}
   Back_Joint_Part: {fileID: 1648695031401577810}
   Left_Joint_Part: {fileID: 1648695031709293909}
@@ -2194,6 +2199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canAccess: 1
+  DestroyEffect: {fileID: 1343422024254995666, guid: 2f7ba19c23a721f4b842a4f8d9002956, type: 3}
   Forward_Joint_Part: {fileID: 1648695031134764823}
   Back_Joint_Part: {fileID: 1648695031890739118}
   Left_Joint_Part: {fileID: 1648695030430115908}

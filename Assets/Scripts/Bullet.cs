@@ -4,21 +4,24 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    AudioSource myAudio;
     private float bullet_Damage = 10f;
     void Start()
     {
+        myAudio = GetComponent<AudioSource>();
         StartCoroutine(Destroy_Timer());
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.up * 100f * Time.deltaTime);
+        transform.Translate(Vector3.up * 80f * Time.deltaTime);
     }
 
     private IEnumerator Destroy_Timer()
     {
-        yield return new WaitForSeconds(10f);
+
+        yield return new WaitForSeconds(1.5f);
         Destroy(this.gameObject);
     }
 
@@ -27,6 +30,7 @@ public class Bullet : MonoBehaviour
         if(collision.CompareTag("Module"))
         {
             collision.GetComponent<Module>().Update_Module_HP(bullet_Damage);
+            
             Destroy(this.gameObject);
         }
     }

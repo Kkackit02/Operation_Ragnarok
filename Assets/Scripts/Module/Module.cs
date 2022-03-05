@@ -5,6 +5,9 @@ using UnityEngine;
 public class Module : Drag
 {
     public bool canAccess = false;
+
+    public GameObject DestroyEffect;
+
     public GameObject Forward_Joint_Part;
     public GameObject Back_Joint_Part;
     public GameObject Left_Joint_Part;
@@ -17,20 +20,22 @@ public class Module : Drag
     public bool isConnect = false;
     public bool isContact = false;
     public bool isActive = false;
-
+    public bool isDestroy = false;
     private float Module_Mass = 0.5f;
     public int DirCode; //0 = null, 1 = forward, 2 = back, 3 = left, 4 = right
 
-    private float Module_Hp = 100f;
+    protected float Module_Hp = 100f;
 
 
 
-
+    protected AudioSource myAudio;
 
     public int floor = 0;
     public bool isPlayer = false;
     private void Start()
     {
+        myAudio = GetComponent<AudioSource>();
+        myAudio.volume = 0.6f;
         Module_Hp = module_Data.ModuleHp;
         Module_Mass = module_Data.ModuleMass;
 
@@ -223,18 +228,29 @@ public class Module : Drag
     
     public virtual void Destroy_Module()
     {
-        Decompose_Module(true);
-        Destroy(this.gameObject);
+        if(isDestroy == false)
+        {
+            Decompose_Module(true);
+            GameObject A = Instantiate(DestroyEffect, this.gameObject.transform);
+            myAudio.PlayOneShot(SoundManager.Instance.DestroyModule);
+            Destroy(this.gameObject, 1.5f);
+            isDestroy = true;
+        }
+        
     }
 
     
-    public void Update_Module_HP(float value)
+    public virtual void Update_Module_HP(float value)
     {
         Module_Hp -= value;
-        if(Module_Hp <= 0)
+        myAudio.PlayOneShot(SoundManager.Instance.BulletHit);
+        
+        if (Module_Hp <= 0)
         {
+            
             Destroy_Module();
         }
+
     }
 
 
@@ -252,7 +268,7 @@ public class Module : Drag
             gameObject.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             Contact_Joint.gameObject.tag = "Jointed";
-            
+            Reset_Flag();
             ON_Joint();
             Change_Tag_To_Jointed(Contact_Joint);
             Change_Dir(Contact_Joint);
@@ -261,6 +277,7 @@ public class Module : Drag
         }
         isConnect = true;
         isContact = true;
+        myAudio.PlayOneShot(SoundManager.Instance.Composite);
     }
 
     public virtual void Decompose_Module(bool hasConnect)
@@ -313,7 +330,7 @@ public class Module : Drag
             Contact_Joint = null;
             OFF_Joint();
         }
-
+        Reset_Flag();
         this.gameObject.transform.parent = null;
         Parent = null;
         isConnect = false;
@@ -321,10 +338,10 @@ public class Module : Drag
         Blind_Joint();
         Change_Tag_To_Joint();
         Reset_Dir();
-        Reset_Flag();
+
         GetComponent<Rigidbody2D>().AddForce
             (new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f)), ForceMode2D.Impulse);
-        
+        myAudio.PlayOneShot(SoundManager.Instance.Decomposite);
 
         if (hasConnect == true && canAccess == true && isPlayer)
         {

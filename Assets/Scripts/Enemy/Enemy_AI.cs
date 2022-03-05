@@ -9,11 +9,12 @@ public class Enemy_AI : MonoBehaviour
     private float player_Relative_Distance = 0;
     private float player_Relative_Angle = 0;
     private float aI_Hp = 100f;
-    private float Chase_Distance = 80f;
-    private float attack_Distance = 35f;
+    private float Chase_Distance = 110f;
+    private float attack_Distance = 70f;
     private float backing_Distance = 5f;
 
     public AIData aiData;
+
 
     public List<Attack_Module> Attack_Module_List;
     public List<Boost_Module> Boost_Module_List;
