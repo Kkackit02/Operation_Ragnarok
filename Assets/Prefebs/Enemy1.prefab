@@ -431,6 +431,7 @@ MonoBehaviour:
   isDrive: 0
   Ship_rd: {fileID: 5390353952666701771}
   BoosterEffect: {fileID: 0}
+  BoostAni: {fileID: 0}
   y_Dir: 0
   x_Dir: 0
   z_Dir: 0
@@ -1599,6 +1600,7 @@ MonoBehaviour:
   isDrive: 0
   Ship_rd: {fileID: 5390353952666701771}
   BoosterEffect: {fileID: 0}
+  BoostAni: {fileID: 0}
   y_Dir: 0
   x_Dir: 0
   z_Dir: 0
@@ -2916,6 +2918,7 @@ MonoBehaviour:
   isDrive: 0
   Ship_rd: {fileID: 5390353952666701771}
   BoosterEffect: {fileID: 0}
+  BoostAni: {fileID: 0}
   y_Dir: 0
   x_Dir: 0
   z_Dir: 0
@@ -3474,7 +3477,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.95, y: 1.95}
+  m_Size: {x: 1.85, y: 1.85}
   m_EdgeRadius: 0
 --- !u!50 &7473180654163876916
 Rigidbody2D:
@@ -3735,7 +3738,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.95, y: 1.95}
+  m_Size: {x: 1.85, y: 1.85}
   m_EdgeRadius: 0
 --- !u!50 &5194362286110120275
 Rigidbody2D:

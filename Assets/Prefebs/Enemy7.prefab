@@ -381,6 +381,7 @@ MonoBehaviour:
   isDrive: 0
   Ship_rd: {fileID: 3904363693653116689}
   BoosterEffect: {fileID: 0}
+  BoostAni: {fileID: 0}
   y_Dir: 0
   x_Dir: 0
   z_Dir: 0
@@ -594,7 +595,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.95, y: 1.95}
+  m_Size: {x: 1.85, y: 1.85}
   m_EdgeRadius: 0
 --- !u!50 &3574595744810888254
 Rigidbody2D:
@@ -855,7 +856,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.95, y: 1.95}
+  m_Size: {x: 1.85, y: 1.85}
   m_EdgeRadius: 0
 --- !u!50 &3177370130630945961
 Rigidbody2D:
@@ -1722,7 +1723,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.95, y: 1.95}
+  m_Size: {x: 1.85, y: 1.85}
   m_EdgeRadius: 0
 --- !u!50 &8976244084895613284
 Rigidbody2D:
@@ -2115,7 +2116,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.95, y: 1.95}
+  m_Size: {x: 1.85, y: 1.85}
   m_EdgeRadius: 0
 --- !u!50 &4412298378350775314
 Rigidbody2D:
@@ -3349,6 +3350,7 @@ MonoBehaviour:
   isDrive: 0
   Ship_rd: {fileID: 3904363693653116689}
   BoosterEffect: {fileID: 0}
+  BoostAni: {fileID: 0}
   y_Dir: 0
   x_Dir: 0
   z_Dir: 0
@@ -3956,7 +3958,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.95, y: 1.95}
+  m_Size: {x: 1.85, y: 1.85}
   m_EdgeRadius: 0
 --- !u!50 &4118950204228773880
 Rigidbody2D:
@@ -4270,6 +4272,7 @@ MonoBehaviour:
   isDrive: 0
   Ship_rd: {fileID: 3904363693653116689}
   BoosterEffect: {fileID: 0}
+  BoostAni: {fileID: 0}
   y_Dir: 0
   x_Dir: 0
   z_Dir: 0
@@ -4536,6 +4539,7 @@ MonoBehaviour:
   isDrive: 0
   Ship_rd: {fileID: 3904363693653116689}
   BoosterEffect: {fileID: 0}
+  BoostAni: {fileID: 0}
   y_Dir: 0
   x_Dir: 0
   z_Dir: 0
@@ -4749,7 +4753,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.95, y: 1.95}
+  m_Size: {x: 1.85, y: 1.85}
   m_EdgeRadius: 0
 --- !u!50 &8838103476193387054
 Rigidbody2D:
@@ -5063,6 +5067,7 @@ MonoBehaviour:
   isDrive: 0
   Ship_rd: {fileID: 3904363693653116689}
   BoosterEffect: {fileID: 0}
+  BoostAni: {fileID: 0}
   y_Dir: 0
   x_Dir: 0
   z_Dir: 0

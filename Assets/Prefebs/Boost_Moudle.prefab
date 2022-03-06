@@ -111,7 +111,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.95, y: 1.95}
+  m_Size: {x: 1.85, y: 1.85}
   m_EdgeRadius: 0
 --- !u!50 &6558464410701300231
 Rigidbody2D:
@@ -166,6 +166,8 @@ MonoBehaviour:
   Connected_Ship: {fileID: 0}
   isDrive: 0
   Ship_rd: {fileID: 0}
+  BoosterEffect: {fileID: 0}
+  BoostAni: {fileID: 0}
   y_Dir: 0
   x_Dir: 0
   z_Dir: 0

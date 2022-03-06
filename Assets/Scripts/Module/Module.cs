@@ -21,12 +21,14 @@ public class Module : Drag
     public bool isContact = false;
     public bool isActive = false;
     public bool isDestroy = false;
-    private float Module_Mass = 0.5f;
+    protected float Module_Mass = 0.5f;
     public int DirCode; //0 = null, 1 = forward, 2 = back, 3 = left, 4 = right
 
     protected float Module_Hp = 100f;
 
-
+    protected AudioClip Composite_Sound;
+    protected AudioClip Decomposite_Sound;
+    protected AudioClip BulletHit_Sound;
 
     protected AudioSource myAudio;
 
@@ -34,6 +36,9 @@ public class Module : Drag
     public bool isPlayer = false;
     private void Start()
     {
+        Composite_Sound = SoundManager.Instance.Composite;
+        Decomposite_Sound = SoundManager.Instance.Decomposite;
+        BulletHit_Sound = SoundManager.Instance.BulletHit;
         myAudio = GetComponent<AudioSource>();
         myAudio.volume = 0.6f;
         Module_Hp = module_Data.ModuleHp;
@@ -243,7 +248,7 @@ public class Module : Drag
     public virtual void Update_Module_HP(float value)
     {
         Module_Hp -= value;
-        myAudio.PlayOneShot(SoundManager.Instance.BulletHit);
+        myAudio.PlayOneShot(BulletHit_Sound);
         
         if (Module_Hp <= 0)
         {
@@ -257,6 +262,8 @@ public class Module : Drag
     public virtual void Compose_Module()
     {
         Change_Tag_To_Joint();
+        isConnect = true;
+        isContact = true;
         if (Contact_Joint != null)
         {
             isPlayer = true;
@@ -277,46 +284,45 @@ public class Module : Drag
         }
         isConnect = true;
         isContact = true;
-        myAudio.PlayOneShot(SoundManager.Instance.Composite);
+        myAudio.PlayOneShot(Composite_Sound);
     }
 
     public virtual void Decompose_Module(bool hasConnect)
     {
         //연결된 부품들 분해
-        if(Forward_Joint_Part.gameObject != null)
+        if(Forward_Joint_Part != null)
         {
-            if (Forward_Joint_Part.transform.childCount != 0)
+            if (Forward_Joint_Part.transform.childCount == 1)
             {
-                Forward_Joint_Part.transform.GetChild(0).GetComponent<Module>().canAccess = true;
-                Forward_Joint_Part.transform.GetChild(0).GetComponent<Module>().Decompose_Module(true);
+                Forward_Joint_Part.transform.GetChild(0).gameObject.GetComponent<Module>().canAccess = true;
+                Forward_Joint_Part.transform.GetChild(0).gameObject.GetComponent<Module>().Decompose_Module(true);
+            }
+        }
+        if(Back_Joint_Part != null)
+        {
+            if (Back_Joint_Part.transform.childCount == 1)
+            {
+                Back_Joint_Part.transform.GetChild(0).gameObject.GetComponent<Module>().canAccess = true;
+                Back_Joint_Part.transform.GetChild(0).gameObject.GetComponent<Module>().Decompose_Module(true);
                 
             }
         }
-        if(Back_Joint_Part.gameObject != null)
+        if(Left_Joint_Part != null)
         {
-            if (Back_Joint_Part.transform.childCount != 0)
+            if (Left_Joint_Part.transform.childCount == 1)
             {
-                Back_Joint_Part.transform.GetChild(0).GetComponent<Module>().canAccess = true;
-                Back_Joint_Part.transform.GetChild(0).GetComponent<Module>().Decompose_Module(true);
-                
-            }
-        }
-        if(Left_Joint_Part.gameObject != null)
-        {
-            if (Left_Joint_Part.transform.childCount != 0)
-            {
-                Left_Joint_Part.transform.GetChild(0).GetComponent<Module>().canAccess = true;
-                Left_Joint_Part.transform.GetChild(0).GetComponent<Module>().Decompose_Module(true);
+                Left_Joint_Part.transform.GetChild(0).gameObject.GetComponent<Module>().canAccess = true;
+                Left_Joint_Part.transform.GetChild(0).gameObject.GetComponent<Module>().Decompose_Module(true);
                 
             }
         }
 
-        if(Right_Joint_Part.gameObject != null)
+        if(Right_Joint_Part != null)
         {
-            if (Right_Joint_Part.transform.childCount != 0)
+            if (Right_Joint_Part.transform.childCount == 1)
             {
-                Right_Joint_Part.transform.GetChild(0).GetComponent<Module>().canAccess = true;
-                Right_Joint_Part.transform.GetChild(0).GetComponent<Module>().Decompose_Module(true);
+                Right_Joint_Part.transform.GetChild(0).gameObject.GetComponent<Module>().canAccess = true;
+                Right_Joint_Part.transform.GetChild(0).gameObject.GetComponent<Module>().Decompose_Module(true);
                 
             }
         }
@@ -341,7 +347,7 @@ public class Module : Drag
 
         GetComponent<Rigidbody2D>().AddForce
             (new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f)), ForceMode2D.Impulse);
-        myAudio.PlayOneShot(SoundManager.Instance.Decomposite);
+        myAudio.PlayOneShot(Decomposite_Sound);
 
         if (hasConnect == true && canAccess == true && isPlayer)
         {

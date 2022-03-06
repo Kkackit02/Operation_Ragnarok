@@ -4,11 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Connect
   - Module
   - Joint
   - Jointed
-  - PlayerAttack
   layers:
   - Default
   - TransparentFX

@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public Ship_Module MainShip_Module_Script;
     public Slider HP_Slider;
     public int connected_Moudule_Count = 0;
-    
+    public Rigidbody2D Ship_Rd;
     private void Awake()
     {
         Screen.SetResolution(1920, 1080, true);

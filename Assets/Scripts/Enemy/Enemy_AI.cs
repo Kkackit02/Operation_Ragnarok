@@ -11,7 +11,6 @@ public class Enemy_AI : MonoBehaviour
     private float aI_Hp = 100f;
     private float Chase_Distance = 110f;
     private float attack_Distance = 70f;
-    private float backing_Distance = 5f;
 
     public AIData aiData;
 

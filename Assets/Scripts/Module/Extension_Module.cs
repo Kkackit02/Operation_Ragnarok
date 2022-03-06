@@ -6,6 +6,9 @@ public class Extension_Module : Module
 {
     void Start()
     {
+        Decomposite_Sound = SoundManager.Instance.Decomposite;
+        Composite_Sound = SoundManager.Instance.Composite;
+        BulletHit_Sound = SoundManager.Instance.BulletHit;
         myAudio = GetComponent<AudioSource>();
         myAudio.volume = 0.6f;
         Forward_Joint_Part = gameObject.transform.GetChild(0).gameObject;

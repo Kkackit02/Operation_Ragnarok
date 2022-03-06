@@ -9,7 +9,7 @@ public class Attack_Module : Module
     public List<GameObject> Muzzle_Part;
     public bool isAttack;
     public GameObject Bullet_Object;
-
+    private AudioClip Shot_Sound;
     protected float module_Damage = 10f;
     protected float module_Dalay = 0.3f;
     public enum Attack_State // °¢µµ
@@ -21,9 +21,12 @@ public class Attack_Module : Module
     public Attack_State attack_State = Attack_State.Stop;
     void Start()
     {
-
+        Shot_Sound = SoundManager.Instance.AttackFire;
+        Decomposite_Sound = SoundManager.Instance.Decomposite;
+        Composite_Sound = SoundManager.Instance.Composite;
+        BulletHit_Sound = SoundManager.Instance.BulletHit;
         myAudio = GetComponent<AudioSource>();
-        myAudio.volume = 0.45f;
+        myAudio.volume = 0.6f;
         StartCoroutine(Attack());
         //Back_Joint_Part = gameObject.transform.GetChild(0).gameObject;
         Blind_Joint();
@@ -38,7 +41,7 @@ public class Attack_Module : Module
     {
         if (isAttack == true)
         {
-            myAudio.PlayOneShot(SoundManager.Instance.AttackFire);
+            myAudio.PlayOneShot(Shot_Sound);
             var Bullet = Instantiate(Bullet_Object, Muzzle_Part[0].transform);
             Bullet.transform.parent = null;
         }
@@ -81,7 +84,39 @@ public class Attack_Module : Module
         }
     }
 
+    public override void Decompose_Module(bool hasConnect)
+    {
+        if (Contact_Joint != null)
+        {
+            Contact_Joint.gameObject.tag = "Joint";
+            //GetComponent<FixedJoint2D>().connectedBody = null;
+            GetComponent<Rigidbody2D>().isKinematic = false;
+            Contact_Joint.GetComponent<BoxCollider2D>().size = new Vector2(1f, 1f);
+            Contact_Joint = null;
+            OFF_Joint();
+        }
+        Reset_Flag();
+        this.gameObject.transform.parent = null;
+        Parent = null;
+        isConnect = false;
 
+        Blind_Joint();
+        Change_Tag_To_Joint();
+        Reset_Dir();
+
+        GetComponent<Rigidbody2D>().AddForce
+            (new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f)), ForceMode2D.Impulse);
+        myAudio.PlayOneShot(Decomposite_Sound);
+
+        if (hasConnect == true && canAccess == true && isPlayer)
+        {
+            GameManager.Instance.Joint_Part.Remove(gameObject);
+            GameManager.Instance.connected_Moudule_Count--;
+            GameManager.Instance.MainShip_Module_Script.AddMass(-Module_Mass);
+            isPlayer = false;
+
+        }
+    }
     protected override void Reset_Flag()
     {
         attack_State = Attack_State.Stop;

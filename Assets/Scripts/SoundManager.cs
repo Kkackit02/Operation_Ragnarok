@@ -13,17 +13,13 @@ public class SoundManager : MonoBehaviour
 
     public AudioClip AttackFire;
     public AudioClip DoubleAttackFire;
-    public AudioClip BoostSound;
     public AudioClip BulletHit;
     public AudioClip DestroyModule;
     public AudioClip DestroyShip;
     public AudioClip Composite;
     public AudioClip Decomposite;
-    public AudioClip DialogTap;
-    public AudioClip DialogSay;
     public AudioClip TitleBGM; 
     public AudioClip IngameBGM;     
-    public AudioClip GameOverBGM; 
     
     public bool isPlay = false;
 
@@ -71,8 +67,5 @@ public class SoundManager : MonoBehaviour
     {
         myAudio.PlayOneShot(Decomposite);
     }
-    public void Play_BoostSoundSound()
-    {
-        myAudio.PlayOneShot(BoostSound);
-    }
+
 }

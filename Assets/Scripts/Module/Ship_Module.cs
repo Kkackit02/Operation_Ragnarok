@@ -11,7 +11,6 @@ public class Ship_Module : Module
     public float ship_Mass = 2f;
     public float ship_Drag = 0.4f;
     public float ship_Angular_Drag = 0.5f;
-
     //public new GameObject[] DestroyEffect;
 
     public enum Y_DirState
@@ -41,7 +40,9 @@ public class Ship_Module : Module
 
     void Start()
     {
-
+        Decomposite_Sound = SoundManager.Instance.Decomposite;
+        Composite_Sound = SoundManager.Instance.Composite;
+        BulletHit_Sound = SoundManager.Instance.BulletHit;
         myAudio = GetComponent<AudioSource>();
         myAudio.volume = 0.6f;
         Ship_rd = GetComponent<Rigidbody2D>();
@@ -194,7 +195,7 @@ public class Ship_Module : Module
     public override void Update_Module_HP(float value)
     {
         Module_Hp -= value;
-        myAudio.PlayOneShot(SoundManager.Instance.BulletHit);
+        myAudio.PlayOneShot(BulletHit_Sound);
         if(isPlayer == true)
         {
             GameManager.Instance.UpdateHP_UI(Module_Hp);
