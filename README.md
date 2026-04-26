@@ -49,6 +49,12 @@
 
 ---
 
+## 📥 다운로드
+
+[![Download](https://img.shields.io/badge/Download-Operation_Ragnarok-blue?style=flat-square&logo=google-drive&logoColor=white)](https://drive.google.com/file/d/1HFJgbd6aT-LJwAXvF2GCMZ7NtbIdwRG9/view?usp=drive_link)
+
+---
+
 ## 🎬 시연 영상
 
 <!-- 영상 링크를 여기에 추가해주세요 -->
